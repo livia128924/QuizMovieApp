@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">quizMovieApp</string>
+
+    <string name="count_label">Q%d</string>
+    <string name="questionLabel">Question</string>
+    <string name="btn_answer">Opção</string>
+
+</resources>
