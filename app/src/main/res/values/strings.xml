@@ -4,5 +4,8 @@
     <string name="count_label">Q%d</string>
     <string name="questionLabel">Question</string>
     <string name="btn_answer">Opção</string>
+    <string name="result_title">Resultado</string>
+    <string name="result_score">%d / 10</string>
+    <string name="btd_try_again">Tentar de novo</string>
 
 </resources>

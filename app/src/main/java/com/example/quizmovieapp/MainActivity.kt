@@ -1,5 +1,6 @@
 package com.example.quizmovieapp
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,15 +14,16 @@ import com.example.quizmovieapp.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private  var rightAnswer: String? = null
+
     private var rightAnswerCount = 0
     private var quizCount = 1
-    private val QUIZ_COUNT = 5
+    private val QUIZ_COUNT = 10
    private val questions = mutableListOf(
         mutableListOf(
             "question_01",
             " Qual ator interpretou o personagem principal em \"Coringa\" (2019)?",
             "single_choice",
-            listOf("a"),
+           "Joaquin Phoenix",
             mapOf(
                 "a" to "Joaquin Phoenix",
                 "b" to "Heath Ledger",
@@ -33,7 +35,7 @@ class MainActivity : AppCompatActivity() {
             "question_02",
             "Qual filme ganhou o Oscar de Melhor Filme em 2020?",
             "single_choice",
-            listOf("a"),
+            "Parasita",
             mapOf(
                 "a" to "Parasita",
                 "b" to "1917",
@@ -46,7 +48,7 @@ class MainActivity : AppCompatActivity() {
             "question_03",
             "Qual atriz interpretou a personagem Katniss Everdeen em \"Jogos Vorazes\" (2012)?",
             "single_choice",
-            listOf("b"),
+            "Jennifer Lawrence",
             mapOf(
                 "a" to "Emma Stone",
                 "b" to "Jennifer Lawrence",
@@ -58,7 +60,7 @@ class MainActivity : AppCompatActivity() {
             "question_04",
             "Qual é o nome do filme em que um cientista constrói uma máquina do tempo para tentar salvar a vida de sua namorada?",
             "single_choice",
-            listOf("d"),
+            "Questão de Tempo",
             mapOf(
                 "a" to "O Efeito Borboleta",
                 "b" to "Donnie Darko",
@@ -70,7 +72,7 @@ class MainActivity : AppCompatActivity() {
             "question_05",
             "Qual é o nome do primeiro filme da saga \"O Senhor dos Anéis\" lançado em 2001?",
             "single_choice",
-            listOf("a"),
+           "A Sociedade do Anel",
             mapOf(
                 "a" to "A Sociedade do Anel",
                 "b" to "As Duas Torres",
@@ -82,7 +84,7 @@ class MainActivity : AppCompatActivity() {
             "question_06",
             "Qual filme conta a história de um jovem que entra para uma gangue de skinheads neonazistas?",
             "single_choice",
-            listOf("a"),
+            "American History X",
             mapOf(
                 "a" to "American History X",
                 "b" to "Clube da Luta",
@@ -94,7 +96,7 @@ class MainActivity : AppCompatActivity() {
             "question_07",
             "Qual é o nome da personagem principal em \"La La Land\" (2016)?",
             "single_choice",
-            listOf("c"),
+            "Mia Dolan",
             mapOf(
                 "a" to "Sebastian Wilder",
                 "b" to "Keith Reynolds",
@@ -106,7 +108,7 @@ class MainActivity : AppCompatActivity() {
             "question_08",
             "Qual é o nome do filme em que Johnny Depp interpreta um pirata?",
             "multi_choice",
-            listOf("b", "d"),
+            listOf("Piratas do Caribe: A Maldição do Pérola Negra", "Harry Potter e o Prisioneiro de Azkaban"),
             mapOf(
                 "a" to "O Senhor dos Anéis",
                 "b" to "Piratas do Caribe: A Maldição do Pérola Negra",
@@ -118,7 +120,7 @@ class MainActivity : AppCompatActivity() {
             "question_09",
             " Qual é o nome do filme em que Matt Damon interpreta um agente secreto?",
             "multi_choice",
-            listOf("a", "b"),
+            listOf("Bourne: Identidade Desconhecida", "Missão Impossível - Efeito Fallout"),
             mapOf(
                 "a" to "Bourne: Identidade Desconhecida",
                 "b" to "Missão Impossível - Efeito Fallout",
@@ -129,7 +131,7 @@ class MainActivity : AppCompatActivity() {
             "question_10",
             "Qual é o nome do filme em que Sandra Bullock interpreta uma astronauta?",
             "multi_choice",
-            listOf("a", "c"),
+            listOf("Gravidade", "A Chegada"),
             mapOf(
                 "a" to "Gravidade",
                 "b" to "Interestelar",
@@ -158,7 +160,11 @@ class MainActivity : AppCompatActivity() {
             val ops = quiz[4] as Map<String, String>
 
             binding.questionLabel.text = quiz[1].toString()
+
             rightAnswer = quiz[3].toString()
+
+
+            println("opsTITLe, $ops[0]")
 
             ops.values.toMutableList().shuffle()
 
@@ -175,10 +181,17 @@ class MainActivity : AppCompatActivity() {
         val btnText = answerbtn.text.toString()
         val alertTitle: String
 
-        if(btnText == rightAnswer){
+        var right = rightAnswer
+        var isTT = right?.contains(btnText)
+
+        println("isTT, $isTT")
+
+        println("btn,$btnText" )
+
+        if (btnText == right.toString() || isTT!!) {
             alertTitle = "Correto!"
             rightAnswerCount++
-        }else{
+        } else {
             alertTitle = "Errado!"
         }
 
@@ -193,6 +206,9 @@ class MainActivity : AppCompatActivity() {
     }
     fun checkQuizCount(){
         if(quizCount == QUIZ_COUNT){
+            val intent = Intent(this@MainActivity, ResultActivity::class.java)
+            intent.putExtra("RIGHT_ANSWER_COUNT", rightAnswerCount)
+            startActivity(intent)
 
         }else{
             quizCount++
@@ -201,40 +217,6 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    data class Question(
-        val id: String,
-        val title: String,
-        val type: String,
-        val answers: List<String>,
-        val options: Map<String, String>
-    )
 
-//    class QuestionAdapter(val questions: MutableList<MutableList<Any>>) :
-//        RecyclerView.Adapter<QuestionViewHolder>() {
-//
-//        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QuestionViewHolder {
-//            val binding = ActivityMainBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-//            return QuestionViewHolder(binding)
-//        }
-//
-//        override fun onBindViewHolder(holder: QuestionViewHolder, position: Int) {
-//            val question = questions[position]
-//            holder.bind(question)
-//        }
-//
-//        override fun getItemCount(): Int {
-//            return questions.size
-//        }
-//
-//    }
-//
-//    class QuestionViewHolder(private val binding: ActivityMainBinding) : RecyclerView.ViewHolder(binding.root) {
-//
-//        fun bind(question: Question) {
-//        binding.questionLabel.text = question.title
-//
-//
-//        }
-//    }
 
 }
