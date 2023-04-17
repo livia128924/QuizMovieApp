@@ -15,7 +15,7 @@ class ResultActivity : AppCompatActivity() {
         setContentView(view)
 
         val score = intent.getIntExtra("RIGHT_ANSWER_COUNT", 0)
-        binding.resultLabel.text = getStcrring(R.string.result_score, score)
+        binding.resultLabel.text = getString(R.string.result_score, score)
         binding.tryAgainBtn.setOnClickListener {
             startActivity(Intent(this@ResultActivity, MainActivity::class.java))
         }
